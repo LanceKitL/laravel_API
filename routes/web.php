@@ -5,7 +5,15 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $companies = Company::with('owner', 'contact', 'products')->get();
+    
+    return view('welcome', compact('companies'));
+});
+
+Route::get('/company/{id}', function ($id){
+    $company = Company::with('owner', 'contact')->findOrFail($id);
+
+    return view('company', compact('company'));
 });
 
 
